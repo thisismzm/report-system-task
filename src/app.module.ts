@@ -4,10 +4,14 @@ import { AppService } from './app.service';
 import { InvoicesModule } from './invoices/invoices.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RabbitMqModule } from './rabitmq.module';
+import { CronModule } from './cron.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -16,6 +20,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
+    RabbitMqModule,
+    CronModule,
     InvoicesModule
   ],
   controllers: [AppController],
