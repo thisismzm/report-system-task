@@ -13,7 +13,7 @@ export class CronService {
     private readonly invoicesService: InvoicesService
   ) {}
 
-  @Cron('*/10 * * * * *')
+  @Cron('0 0 * * *')
   async handleDailyCron() {
     let dailySummary = await this.invoicesService.getDailySalesSummary();
     console.log(dailySummary);
