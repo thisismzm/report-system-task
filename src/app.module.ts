@@ -4,8 +4,9 @@ import { AppService } from './app.service';
 import { InvoicesModule } from './invoices/invoices.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RabbitMqModule } from './rabitmq.module';
 import { CronModule } from './cron.module';
+import { EmailProducerService } from './email-producer.service';
+import { EmailService } from './email.service';
 
 @Module({
   imports: [
@@ -20,11 +21,10 @@ import { CronModule } from './cron.module';
       }),
       inject: [ConfigService],
     }),
-    RabbitMqModule,
     CronModule,
     InvoicesModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EmailProducerService, EmailService],
 })
 export class AppModule {}

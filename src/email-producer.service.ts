@@ -15,7 +15,7 @@ export class EmailProducerService {
         urls: [rabbitmqUrl],
         queue: 'email_queue',
         queueOptions: {
-          durable: true,
+          durable: false,
         },
       },
     });
