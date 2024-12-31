@@ -15,15 +15,19 @@ export class CronService {
 
   @Cron('0 0 * * *')
   async handleDailyCron() {
-    let dailySummary = await this.invoicesService.getDailySalesSummary();
-    console.log(dailySummary);
-    if (dailySummary.length > 0) {
-      const emailDto = this.emailDtoFactory.create(
-        "mzmoghadam72@gmail.com",
-        "Report",
-        `Total Amout: ${dailySummary.totalAmount}, totalItems: ${dailySummary.totalItems}, invoiceCount: ${dailySummary.invoiceCount}`
-      );
-      await this.emailProducerService.sendEmail(emailDto);
-    }
+    let date = new Date();
+    let totalSalesForDay = await this.invoicesService.getTotalSalesForDay(date);
+    let totalQuantitySoldPerItem = await this.invoicesService.getTotalQuantitySoldPerItem();
+    let text = `${date.getFullYear()}/${date.getMonth()}/${date.getDay()} \n`;
+    text += `Total Sales Amount: ${totalSalesForDay} \n`;
+    totalQuantitySoldPerItem.forEach(element => {
+      text += `SKU: ${element.sku}, Total Quantity Sold: ${element.totalQuantitySold} \n`
+    });
+    const emailDto = this.emailDtoFactory.create(
+      "mzmoghadam72@gmail.com",
+      "Report",
+      text
+    );
+    await this.emailProducerService.sendEmail(emailDto);
   }
 }

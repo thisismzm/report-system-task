@@ -35,35 +35,59 @@ export class InvoicesService {
     return this.invoiceModel.findById(id).exec();
   }
 
-  async getDailySalesSummary(): Promise<any> {
-    const twentyFourHoursAgo = new Date();
-    twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
-  
-    return this.invoiceModel.aggregate([
+  async getTotalSalesForDay(date: Date): Promise<number> {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const invoices = await this.invoiceModel.aggregate([
       {
         $match: {
-          date: { $gte: twentyFourHoursAgo },
+          date: {
+            $gte: startOfDay,
+            $lte: endOfDay,
+          },
         },
       },
       {
         $group: {
-          _id: {
-            $dateToString: { format: '%Y-%m-%d', date: '$date' },
-          },
-          totalAmount: { $sum: '$amount' },
-          totalItems: { $sum: { $sum: '$items.qt' } },
-          invoiceCount: { $count: {} },
+          _id: null,
+          totalSales: { $sum: '$amount' },
         },
       },
+    ]);
+
+    return invoices.length > 0 ? invoices[0].totalSales : 0;
+  }
+
+  async getTotalQuantitySoldPerItem(date): Promise<any[]> {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const result = await this.invoiceModel.aggregate([
       {
-        $project: {
-          date: '$_id',
-          totalAmount: 1,
-          totalItems: 1,
-          invoiceCount: 1,
-          _id: 0,
+        $match: {
+          date: {
+            $gte: startOfDay,
+            $lte: endOfDay,
+          },
         },
       },
-    ]).exec();
+      { $unwind: '$items' },
+      {
+        $group: {
+          _id: '$items.sku',
+          totalQuantitySold: { $sum: '$items.qt' },
+        },
+      },
+      { $project: { _id: 0, sku: '$_id', totalQuantitySold: 1 } },
+    ]);
+
+    return result;
   }
 }

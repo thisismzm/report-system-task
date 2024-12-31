@@ -13,7 +13,7 @@ export class EmailProducerService {
       transport: Transport.RMQ,
       options: {
         urls: [rabbitmqUrl],
-        queue: 'email_queue',
+        queue: 'daily_sales_report',
         queueOptions: {
           durable: false,
         },
