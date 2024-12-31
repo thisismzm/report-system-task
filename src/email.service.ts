@@ -3,16 +3,12 @@ import { EmailTransportService } from './email-transport.service';
 
 @Injectable()
 export class EmailService {
-  constructor(
-    private readonly emailTransportService: EmailTransportService
-  ) {
-
-  }
+  constructor(private readonly emailTransportService: EmailTransportService) {}
 
   async sendEmail(data) {
     try {
       const { to, subject, text } = data;
-      let transport = this.emailTransportService.getTransport();
+      const transport = this.emailTransportService.getTransport();
       await transport.sendMail({
         from: 'mynestjsapp@localhost.local',
         to,

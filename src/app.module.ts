@@ -12,7 +12,7 @@ import { EmailTransportService } from './email-transport.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -23,9 +23,14 @@ import { EmailTransportService } from './email-transport.service';
       inject: [ConfigService],
     }),
     CronModule,
-    InvoicesModule
+    InvoicesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, EmailProducerService, EmailService, EmailTransportService],
+  providers: [
+    AppService,
+    EmailProducerService,
+    EmailService,
+    EmailTransportService,
+  ],
 })
 export class AppModule {}

@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
+import {
+  ClientProxy,
+  ClientProxyFactory,
+  Transport,
+} from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import { EmailDto } from './email.dto';
 

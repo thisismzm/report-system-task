@@ -12,7 +12,7 @@ describe('InvoicesService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{provide: InvoicesService, useValue: mockInvoicesService}],
+      providers: [{ provide: InvoicesService, useValue: mockInvoicesService }],
     }).compile();
 
     service = module.get<InvoicesService>(InvoicesService);

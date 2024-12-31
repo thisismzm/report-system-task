@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, UseInterceptors } from "@nestjs/common";
+import { ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 
 @UseInterceptors(ClassSerializerInterceptor)
 export class EmailDto {

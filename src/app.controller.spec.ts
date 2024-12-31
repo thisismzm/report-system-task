@@ -13,7 +13,10 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService, {provide: EmailService, useValue: mockEmailService}],
+      providers: [
+        AppService,
+        { provide: EmailService, useValue: mockEmailService },
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);

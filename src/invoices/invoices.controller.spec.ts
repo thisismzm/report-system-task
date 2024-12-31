@@ -27,8 +27,8 @@ describe('InvoicesController', () => {
         },
         {
           provide: EmailService,
-          useValue: mockEmailService
-        }
+          useValue: mockEmailService,
+        },
       ],
     }).compile();
 
@@ -79,9 +79,14 @@ describe('InvoicesController', () => {
         { id: '123', customer: 'John Doe', amount: 100, date: '2024-12-10' },
         { id: '124', customer: 'Jane Doe', amount: 200, date: '2024-12-15' },
         { id: '125', customer: 'Jim Beam', amount: 300, date: '2024-11-25' },
-        { id: '126', customer: 'Jack Daniels', amount: 400, date: '2025-01-05' },
+        {
+          id: '126',
+          customer: 'Jack Daniels',
+          amount: 400,
+          date: '2025-01-05',
+        },
       ];
-  
+
       const expectedResult = [
         { id: '123', customer: 'John Doe', amount: 100, date: '2024-12-10' },
         { id: '124', customer: 'Jane Doe', amount: 200, date: '2024-12-15' },
