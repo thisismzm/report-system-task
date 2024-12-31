@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 
 @Controller('invoices')
@@ -11,7 +11,12 @@ export class InvoicesController {
   }
 
   @Get()
-  async findAll() {
-    return this.invoicesService.findAll();
+  async findAll(@Query() query: any) {
+    return this.invoicesService.findAll(query);
+  }
+
+  @Get(':id')
+  async getInvoiceById(@Param('id') id: string) {
+    return this.invoicesService.findOneById(id);
   }
 }

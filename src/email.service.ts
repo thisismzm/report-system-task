@@ -1,21 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import * as nodemailer from 'nodemailer';
+import { EmailTransportService } from './email-transport.service';
 
 @Injectable()
 export class EmailService {
+  constructor(
+    private readonly emailTransportService: EmailTransportService
+  ) {
+
+  }
+
   async sendEmail(data) {
     try {
       const { to, subject, text } = data;
-
-      let transporter = nodemailer.createTransport({
-        name: 'test',
-        version: '0.1.0',
-        send: (mail) => {
-          console.log(mail.data);
-        },
-      });
-
-      await transporter.sendMail({
+      let transport = this.emailTransportService.getTransport();
+      await transport.sendMail({
         from: 'mynestjsapp@localhost.local',
         to,
         subject,

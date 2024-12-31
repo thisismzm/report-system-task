@@ -14,8 +14,25 @@ export class InvoicesService {
     return createdInvoice.save();
   }
 
-  async findAll(): Promise<Invoice[]> {
-    return this.invoiceModel.find().exec();
+  async findAll(filters: any): Promise<Invoice[]> {
+    const query: any = {};
+
+    if (filters.startDate && filters.endDate) {
+      query.date = {
+        $gte: new Date(filters.startDate),
+        $lte: new Date(filters.endDate),
+      };
+    }
+
+    if (filters.customer) {
+      query.customer = { $regex: filters.customer, $options: 'i' };
+    }
+
+    return this.invoiceModel.find(query).exec();
+  }
+
+  async findOneById(id: string): Promise<Invoice> {
+    return this.invoiceModel.findById(id).exec();
   }
 
   async getDailySalesSummary(): Promise<any> {

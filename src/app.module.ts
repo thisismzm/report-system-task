@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CronModule } from './cron.module';
 import { EmailProducerService } from './email-producer.service';
 import { EmailService } from './email.service';
+import { EmailTransportService } from './email-transport.service';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { EmailService } from './email.service';
     InvoicesModule
   ],
   controllers: [AppController],
-  providers: [AppService, EmailProducerService, EmailService],
+  providers: [AppService, EmailProducerService, EmailService, EmailTransportService],
 })
 export class AppModule {}
