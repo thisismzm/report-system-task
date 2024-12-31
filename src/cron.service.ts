@@ -17,7 +17,7 @@ export class CronService {
   async handleDailyCron() {
     let date = new Date();
     let totalSalesForDay = await this.invoicesService.getTotalSalesForDay(date);
-    let totalQuantitySoldPerItem = await this.invoicesService.getTotalQuantitySoldPerItem();
+    let totalQuantitySoldPerItem = await this.invoicesService.getTotalQuantitySoldPerItem(date);
     let text = `${date.getFullYear()}/${date.getMonth()}/${date.getDay()} \n`;
     text += `Total Sales Amount: ${totalSalesForDay} \n`;
     totalQuantitySoldPerItem.forEach(element => {
